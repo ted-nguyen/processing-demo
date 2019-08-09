@@ -46,5 +46,9 @@ void serialEvent(Serial myPort)
   //newRow.setFloat("Value", val);
   
   // Save the table as a .csv file 
-  if (reading
+  if (readingCounter % numReadings == 0) // Check if readCounter is a multiple of numReadings
+  {
+    fileName = str(year()) + str(month()) + str(day()) + str(dataTable.lastRowIndex());
+    saveTable(dataTable, fileName); // Save the file
+  }
 }
