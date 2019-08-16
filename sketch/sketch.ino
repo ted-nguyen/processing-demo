@@ -1,12 +1,14 @@
-/*************************************
+  /*************************************
  * For Arduino UNO OLED Displays: SDA -> A5, SCL -> A4
- * Address is 0x3C
  */
-
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
- 
+#include <DS3231.h>
+
+// Init the DS3231 using the hardware interface
+DS3231  rtc(SDA, SCL);
+
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
 
@@ -15,7 +17,11 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 void setup() {
+  // Set Up Serial Communication
   Serial.begin(9600);
+
+  // Initialize the rtc object
+  rtc.begin();
   
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
@@ -35,16 +41,15 @@ void setup() {
 }
 
 void loop() {
-  int x = 0;
+  float x = 0.0;
 
   // Clear the display and reset the cursor
   display.clearDisplay();
   display.setCursor(0, 0);
   
   // Prints the numbers 0 through 10
-  while(x <= 9) {
+  while(x <= 9.0) {
     Serial.print(x);
-    Serial.print(", ");
     
     display.print(x);
     display.print(", ");
@@ -60,6 +65,6 @@ void loop() {
   display.display();
   
   delay(2000); // Wait 2 seconds
-  // Stops the loop
+  // Wait indefintely
   while(1);
 }
