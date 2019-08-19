@@ -49,17 +49,17 @@ void loop() {
   
   // Prints the numbers 0 through 10
   while(x <= 9.0) {
-    Serial.print(x);
+    Serial.println(x*0.2);
     
     display.print(x);
     display.print(", ");
     display.display(); // update display
     
-    delay(500);
+    delay(1000);
     x++; 
   }
 
-  Serial.print(x);
+  Serial.println(x);
   
   display.print(x);
   display.display();
